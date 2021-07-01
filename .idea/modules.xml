@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Cerealib.iml" filepath="$PROJECT_DIR$/Cerealib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CerealibTest/CerealibTest.iml" filepath="$PROJECT_DIR$/CerealibTest/CerealibTest.iml" />
+    </modules>
+  </component>
+</project>
