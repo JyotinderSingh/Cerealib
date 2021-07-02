@@ -1,4 +1,4 @@
-package com.jyotindersingh;
+package com.cerealib;
 
 public class SerializationWriter {
 

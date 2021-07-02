@@ -1,4 +1,4 @@
-import static com.jyotindersingh.SerializationWriter.*;
+import static com.cerealib.SerializationWriter.*;
 
 public class Main {
     static void printBytes(byte[] data) {
