@@ -10,9 +10,12 @@ public class Main {
     public static void main(String[] args) {
         byte[] data = new byte[8];
 
-        String name = "abcdef";
-        writeBytes(data, 0, name);
+        writeBytes(data, 0, 10000);
         printBytes(data);
+
+        byte[] bytes = new byte[]{0x0, 0x0, 0x27, 0x10};
+        int readBack = readInt(bytes, 0);
+        System.out.println(readBack);
 
     }
 }
