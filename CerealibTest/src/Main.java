@@ -1,4 +1,5 @@
-import static com.cerealib.SerializationWriter.*;
+import com.cerealib.Field;
+import com.cerealib.IntField;
 
 public class Main {
     static void printBytes(byte[] data) {
@@ -8,14 +9,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        byte[] data = new byte[8];
 
-        writeBytes(data, 0, 10000);
+        Field field = new IntField("Test", 8);
+
+        byte[] data = new byte[100];
+        field.getBytes(data, 0);
         printBytes(data);
-
-        byte[] bytes = new byte[]{0x0, 0x0, 0x27, 0x10};
-        int readBack = readInt(bytes, 0);
-        System.out.println(readBack);
-
     }
 }

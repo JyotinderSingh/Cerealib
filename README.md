@@ -1,3 +1,3 @@
-# Cerealib - A Serialization Library for Java
+# Cerealib - A High Performance Serialization Library for Java
 
 Source code for a handcrafted automated serialization library for Java, written in Java.

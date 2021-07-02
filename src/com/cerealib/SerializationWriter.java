@@ -228,6 +228,13 @@ public class SerializationWriter {
         return Double.longBitsToDouble(readLong(src, pointer));
     }
 
+    /**
+     * Reads a boolean from a source byte array.
+     *
+     * @param src     source byte array.
+     * @param pointer pointer offset in the source.
+     * @return
+     */
     public static boolean readBoolean(byte[] src, int pointer) {
         assert (src[pointer] == 0 || src[pointer] == 1);
         return src[pointer] != 0;
