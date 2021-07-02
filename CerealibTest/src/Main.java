@@ -8,12 +8,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        byte[] data = new byte[16];
+        byte[] data = new byte[8];
 
-
-        int pointer = writeBytes(data, 0, true);
-        pointer = writeBytes(data, pointer, false);
-
+        String name = "abcdef";
+        writeBytes(data, 0, name);
         printBytes(data);
+
     }
 }

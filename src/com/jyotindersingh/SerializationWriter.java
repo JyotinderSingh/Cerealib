@@ -8,6 +8,21 @@ public class SerializationWriter {
     public static final short VERSION = 0x0100;
 
     /**
+     * Writes a source byte array to a destination byte array.
+     *
+     * @param dest
+     * @param pointer
+     * @param src
+     * @return
+     */
+    public static int writeBytes(byte[] dest, int pointer, byte[] src) {
+        for (int i = 0; i < src.length; i++) {
+            dest[pointer++] = src[i];
+        }
+        return pointer;
+    }
+
+    /**
      * Writes a byte to the destination.
      *
      * @param dest    destination byte array.
@@ -121,5 +136,18 @@ public class SerializationWriter {
     public static int writeBytes(byte[] dest, int pointer, boolean value) {
         dest[pointer++] = (byte) (value ? 1 : 0);
         return pointer;
+    }
+
+    /**
+     * Writes a string to the destination
+     *
+     * @param dest    destination byte array
+     * @param pointer index at which the data is to be written
+     * @param string  data to be written
+     * @return
+     */
+    public static int writeBytes(byte[] dest, int pointer, String string) {
+        pointer = writeBytes(dest, pointer, (short) string.length());
+        return writeBytes(dest, pointer, string.getBytes());
     }
 }
