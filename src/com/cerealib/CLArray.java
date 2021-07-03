@@ -2,7 +2,7 @@ package com.cerealib;
 
 import static com.cerealib.SerializationWriter.writeBytes;
 
-public class Array {
+public class CLArray {
     public static final byte CONTAINER_TYPE = ContainerType.ARRAY;  // (field, array, object)
     public short nameLength;
     public byte[] name;
@@ -17,6 +17,9 @@ public class Array {
     private float[] floatData;
     private double[] doubleData;
     private boolean[] booleanData;
+
+    private CLArray() {
+    }
 
     /**
      * Set the name property of the Array.
@@ -107,8 +110,8 @@ public class Array {
      * @param data data stored in the field
      * @return
      */
-    public static Array Byte(String name, byte[] data) {
-        Array array = new Array();
+    public static CLArray Byte(String name, byte[] data) {
+        CLArray array = new CLArray();
         array.setName(name);
         array.type = Type.BYTE;
         array.count = data.length;
@@ -123,8 +126,8 @@ public class Array {
      * @param data data stored in the field
      * @return
      */
-    public static Array Short(String name, short[] data) {
-        Array array = new Array();
+    public static CLArray Short(String name, short[] data) {
+        CLArray array = new CLArray();
         array.setName(name);
         array.type = Type.SHORT;
         array.count = data.length;
@@ -139,8 +142,8 @@ public class Array {
      * @param data data stored in the field
      * @return
      */
-    public static Array Char(String name, char[] data) {
-        Array array = new Array();
+    public static CLArray Char(String name, char[] data) {
+        CLArray array = new CLArray();
         array.setName(name);
         array.type = Type.CHAR;
         array.count = data.length;
@@ -155,8 +158,8 @@ public class Array {
      * @param data data stored in the field
      * @return
      */
-    public static Array Integer(String name, int[] data) {
-        Array array = new Array();
+    public static CLArray Integer(String name, int[] data) {
+        CLArray array = new CLArray();
         array.setName(name);
         array.type = Type.INTEGER;
         array.count = data.length;
@@ -171,8 +174,8 @@ public class Array {
      * @param data data stored in the field
      * @return
      */
-    public static Array Long(String name, long[] data) {
-        Array array = new Array();
+    public static CLArray Long(String name, long[] data) {
+        CLArray array = new CLArray();
         array.setName(name);
         array.type = Type.LONG;
         array.count = data.length;
@@ -187,8 +190,8 @@ public class Array {
      * @param data data stored in the field
      * @return
      */
-    public static Array Float(String name, float[] data) {
-        Array array = new Array();
+    public static CLArray Float(String name, float[] data) {
+        CLArray array = new CLArray();
         array.setName(name);
         array.type = Type.FLOAT;
         array.count = data.length;
@@ -203,8 +206,8 @@ public class Array {
      * @param data data stored in the field
      * @return
      */
-    public static Array Double(String name, double[] data) {
-        Array array = new Array();
+    public static CLArray Double(String name, double[] data) {
+        CLArray array = new CLArray();
         array.setName(name);
         array.type = Type.DOUBLE;
         array.count = data.length;
@@ -219,8 +222,8 @@ public class Array {
      * @param data data stored in the field
      * @return
      */
-    public static Array Boolean(String name, boolean[] data) {
-        Array array = new Array();
+    public static CLArray Boolean(String name, boolean[] data) {
+        CLArray array = new CLArray();
         array.setName(name);
         array.type = Type.BOOLEAN;
         array.count = data.length;

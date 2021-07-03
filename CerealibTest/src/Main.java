@@ -1,5 +1,11 @@
-import com.cerealib.Array;
+import com.cerealib.CLArray;
+import com.cerealib.CLField;
+import com.cerealib.CLObject;
 
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Random;
 
 public class Main {
@@ -11,17 +17,34 @@ public class Main {
         }
     }
 
+    static void saveToFile(String path, byte[] data) {
+        try {
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(path));
+            stream.write(data);
+            stream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         int[] data = new int[50000];
         for (int i = 0; i < data.length; ++i) {
             data[i] = random.nextInt();
         }
-        Array array = Array.Integer("Test", data);
+        CLArray array = CLArray.Integer("RandomNumbers", data);
+        CLField field = CLField.Integer("Integer", 8);
 
-        byte[] stream = new byte[array.getSize()];
+        CLObject object = new CLObject("Entity");
+        object.addArray(array);
+        object.addField(field);
 
-        array.getBytes(stream, 0);
-        printBytes(stream);
+        byte[] stream = new byte[object.getSize()];
+
+        object.getBytes(stream, 0);
+        saveToFile("test.cld", stream);
 
     }
 }
