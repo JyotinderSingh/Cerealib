@@ -1,7 +1,4 @@
-import com.cerealib.CLArray;
-import com.cerealib.CLDatabase;
-import com.cerealib.CLField;
-import com.cerealib.CLObject;
+import com.cerealib.*;
 
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
@@ -43,11 +40,12 @@ public class Main {
         CLField positiony = CLField.Short("ypos", (short) 43);
 
         CLObject object = new CLObject("Entity");
-//        object.addArray(array);
+        object.addArray(CLArray.Char("String", "Hello World!".toCharArray()));
         object.addField(field);
         object.addField(positionx);
         object.addField(positiony);
-
+        object.addString(CLString.Create("Example String", "Testing our CLString class!"));
+//        object.addArray(array);
         database.addObject(object);
 
         byte[] stream = new byte[database.getSize()];

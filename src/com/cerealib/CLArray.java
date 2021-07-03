@@ -57,6 +57,7 @@ public class CLArray {
         pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
         pointer = writeBytes(dest, pointer, nameLength);
         pointer = writeBytes(dest, pointer, name);
+        pointer = writeBytes(dest, pointer, size);
         pointer = writeBytes(dest, pointer, type);
         pointer = writeBytes(dest, pointer, count);
 

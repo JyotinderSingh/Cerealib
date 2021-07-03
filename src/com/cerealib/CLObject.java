@@ -9,9 +9,11 @@ public class CLObject {
     public static final byte CONTAINER_TYPE = ContainerType.OBJECT;
     public short nameLength;
     public byte[] name;
-    private int size = 1 + 2 + 4 + 2 + 2;
+    private int size = 1 + 2 + 4 + 2 + 2 + 2;
     private short fieldCount;
     private List<CLField> fields = new ArrayList<CLField>();
+    private short stringCount;
+    private List<CLString> strings = new ArrayList<CLString>();
     private short arrayCount;
     private List<CLArray> arrays = new ArrayList<CLArray>();
 
@@ -36,12 +38,33 @@ public class CLObject {
         size += nameLength;
     }
 
+    /**
+     * Adds a CLField to the CLObject instance.
+     *
+     * @param field
+     */
     public void addField(CLField field) {
         fields.add(field);
         size += field.getSize();
         fieldCount = (short) fields.size();
     }
 
+    /**
+     * Adds a CLString to the CLObject instance.
+     *
+     * @param string
+     */
+    public void addString(CLString string) {
+        strings.add(string);
+        size += string.getSize();
+        stringCount = (short) strings.size();
+    }
+
+    /**
+     * Adds a CLArray to the CLObject instance.
+     *
+     * @param array
+     */
     public void addArray(CLArray array) {
         arrays.add(array);
         size += array.getSize();
@@ -61,6 +84,11 @@ public class CLObject {
         pointer = writeBytes(dest, pointer, fieldCount);
         for (CLField field : fields) {
             pointer = field.getBytes(dest, pointer);
+        }
+
+        pointer = writeBytes(dest, pointer, stringCount);
+        for (CLString string : strings) {
+            pointer = string.getBytes(dest, pointer);
         }
 
         pointer = writeBytes(dest, pointer, arrayCount);
