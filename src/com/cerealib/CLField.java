@@ -4,7 +4,7 @@ import static com.cerealib.SerializationWriter.*;
 
 public class CLField {
 
-    public static final byte CONTAINER_TYPE = ContainerType.FIELD;  // (field, array, object)
+    public static final byte CONTAINER_TYPE = ContainerType.FIELD;
     public short nameLength;
     public byte[] name;
     public byte type;

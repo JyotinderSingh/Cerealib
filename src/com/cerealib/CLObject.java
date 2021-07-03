@@ -6,15 +6,15 @@ import java.util.List;
 import static com.cerealib.SerializationWriter.writeBytes;
 
 public class CLObject {
-    public static final byte CONTAINER_TYPE = ContainerType.OBJECT;  // (field, array, object)
+    public static final byte CONTAINER_TYPE = ContainerType.OBJECT;
     public short nameLength;
     public byte[] name;
+    private int size = 1 + 2 + 4 + 2 + 2;
     private short fieldCount;
     private List<CLField> fields = new ArrayList<CLField>();
     private short arrayCount;
     private List<CLArray> arrays = new ArrayList<CLArray>();
 
-    private int size = 1 + 2 + 2 + 2;
 
     public CLObject(String name) {
         setName(name);
@@ -56,6 +56,7 @@ public class CLObject {
         pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
         pointer = writeBytes(dest, pointer, nameLength);
         pointer = writeBytes(dest, pointer, name);
+        pointer = writeBytes(dest, pointer, size);
 
         pointer = writeBytes(dest, pointer, fieldCount);
         for (CLField field : fields) {

@@ -1,4 +1,5 @@
 import com.cerealib.CLArray;
+import com.cerealib.CLDatabase;
 import com.cerealib.CLField;
 import com.cerealib.CLObject;
 
@@ -34,16 +35,24 @@ public class Main {
         for (int i = 0; i < data.length; ++i) {
             data[i] = random.nextInt();
         }
+        CLDatabase database = new CLDatabase("Database");
+
         CLArray array = CLArray.Integer("RandomNumbers", data);
         CLField field = CLField.Integer("Integer", 8);
+        CLField positionx = CLField.Short("xpos", (short) 8);
+        CLField positiony = CLField.Short("ypos", (short) 43);
 
         CLObject object = new CLObject("Entity");
-        object.addArray(array);
+//        object.addArray(array);
         object.addField(field);
+        object.addField(positionx);
+        object.addField(positiony);
 
-        byte[] stream = new byte[object.getSize()];
+        database.addObject(object);
 
-        object.getBytes(stream, 0);
+        byte[] stream = new byte[database.getSize()];
+
+        database.getBytes(stream, 0);
         saveToFile("test.cld", stream);
 
     }

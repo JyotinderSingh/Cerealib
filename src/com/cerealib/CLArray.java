@@ -3,9 +3,10 @@ package com.cerealib;
 import static com.cerealib.SerializationWriter.writeBytes;
 
 public class CLArray {
-    public static final byte CONTAINER_TYPE = ContainerType.ARRAY;  // (field, array, object)
+    public static final byte CONTAINER_TYPE = ContainerType.ARRAY;
     public short nameLength;
     public byte[] name;
+    public int size = 1 + 2 + 4 + 1 + 4;
     public byte type;
     public int count;
 
@@ -28,8 +29,21 @@ public class CLArray {
      */
     public void setName(String name) {
         assert (name.length() < Short.MAX_VALUE);
+
+        if (this.name != null) {
+            size -= this.name.length;
+        }
         nameLength = (short) name.length();
         this.name = name.getBytes();
+        size += nameLength;
+    }
+
+    /**
+     * Updates the size property of the database with the size of the data.
+     * NOTE: This method must be called after one of the data arrays are set.
+     */
+    private void updateSize() {
+        size += getDataSize();
     }
 
     /**
@@ -78,7 +92,7 @@ public class CLArray {
 
     public int getSize() {
 
-        return 1 + 2 + name.length + 1 + 4 + getDataSize();
+        return size;
     }
 
     public int getDataSize() {
@@ -116,6 +130,7 @@ public class CLArray {
         array.type = Type.BYTE;
         array.count = data.length;
         array.data = data;
+        array.updateSize();
         return array;
     }
 
@@ -132,6 +147,7 @@ public class CLArray {
         array.type = Type.SHORT;
         array.count = data.length;
         array.shortData = data;
+        array.updateSize();
         return array;
     }
 
@@ -148,6 +164,7 @@ public class CLArray {
         array.type = Type.CHAR;
         array.count = data.length;
         array.charData = data;
+        array.updateSize();
         return array;
     }
 
@@ -164,6 +181,7 @@ public class CLArray {
         array.type = Type.INTEGER;
         array.count = data.length;
         array.intData = data;
+        array.updateSize();
         return array;
     }
 
@@ -180,6 +198,7 @@ public class CLArray {
         array.type = Type.LONG;
         array.count = data.length;
         array.longData = data;
+        array.updateSize();
         return array;
     }
 
@@ -196,6 +215,7 @@ public class CLArray {
         array.type = Type.FLOAT;
         array.count = data.length;
         array.floatData = data;
+        array.updateSize();
         return array;
     }
 
@@ -212,6 +232,7 @@ public class CLArray {
         array.type = Type.DOUBLE;
         array.count = data.length;
         array.doubleData = data;
+        array.updateSize();
         return array;
     }
 
@@ -228,6 +249,7 @@ public class CLArray {
         array.type = Type.BOOLEAN;
         array.count = data.length;
         array.booleanData = data;
+        array.updateSize();
         return array;
     }
 }
