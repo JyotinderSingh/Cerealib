@@ -6,7 +6,7 @@ public class Type {
     public static final byte BYTE = 1;
     public static final byte SHORT = 2;
     public static final byte CHAR = 3;
-    public static final byte INT = 4;
+    public static final byte INTEGER = 4;
     public static final byte LONG = 5;
     public static final byte FLOAT = 6;
     public static final byte DOUBLE = 7;
@@ -20,7 +20,7 @@ public class Type {
             case SHORT:
             case CHAR:
                 return 2;
-            case INT:
+            case INTEGER:
             case FLOAT:
                 return 4;
             case LONG:

@@ -1,7 +1,10 @@
-import com.cerealib.Field;
-import com.cerealib.IntField;
+import com.cerealib.Array;
+
+import java.util.Random;
 
 public class Main {
+    static Random random = new Random();
+
     static void printBytes(byte[] data) {
         for (int i = 0; i < data.length; ++i) {
             System.out.printf("0x%x ", data[i]);
@@ -9,11 +12,16 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        int[] data = new int[50000];
+        for (int i = 0; i < data.length; ++i) {
+            data[i] = random.nextInt();
+        }
+        Array array = Array.Integer("Test", data);
 
-        Field field = new IntField("Test", 8);
+        byte[] stream = new byte[array.getSize()];
 
-        byte[] data = new byte[100];
-        field.getBytes(data, 0);
-        printBytes(data);
+        array.getBytes(stream, 0);
+        printBytes(stream);
+
     }
 }
