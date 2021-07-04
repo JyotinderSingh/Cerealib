@@ -36,6 +36,12 @@ public class CLDatabase extends CLBase {
         return size;
     }
 
+    /**
+     * Serialize the database to a given byte array/stream.
+     * @param dest destination byte array.
+     * @param pointer pointer offset inside the destination array.
+     * @return
+     */
     public int getBytes(byte[] dest, int pointer) {
         pointer = writeBytes(dest, pointer, HEADER);
         pointer = writeBytes(dest, pointer, VERSION);
