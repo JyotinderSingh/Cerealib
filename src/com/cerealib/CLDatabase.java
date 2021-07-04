@@ -124,4 +124,15 @@ public class CLDatabase extends CLBase {
         return deserialize(buffer);
     }
 
+    public void serializeToFile(String path) {
+        byte[] data = new byte[getSize()];
+        getBytes(data, 0);
+        try {
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(path));
+            stream.write(data);
+            stream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

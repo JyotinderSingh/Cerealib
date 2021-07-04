@@ -15,16 +15,6 @@ public class Main {
         }
     }
 
-    static void saveToFile(String path, byte[] data) {
-        try {
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(path));
-            stream.write(data);
-            stream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void serializationTest() {
         int[] data = new int[50000];
         for (int i = 0; i < data.length; ++i) {
@@ -54,9 +44,7 @@ public class Main {
         database.addObject(new CLObject("Jyotinder3"));
         database.addObject(new CLObject("Jyotinder4"));
 
-        byte[] stream = new byte[database.getSize()];
-        database.getBytes(stream, 0);
-        saveToFile("test.cld", stream);
+        database.serializeToFile("test.cld");
     }
 
     public static void deserializationTest() {
@@ -77,7 +65,10 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        serializationTest();
-        deserializationTest();
+//        serializationTest();
+//        deserializationTest();
+
+        Sandbox sandbox = new Sandbox();
+        sandbox.play();
     }
 }
