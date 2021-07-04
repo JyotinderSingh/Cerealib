@@ -2,8 +2,6 @@ package com.cerealib;
 
 public class SerializationWriter {
 
-    public static final byte[] HEADER = "CL".getBytes();
-    public static final short VERSION = 0x0100;
 
     /**
      * Writes a source byte array to a destination byte array.

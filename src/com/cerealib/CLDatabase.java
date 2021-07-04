@@ -9,10 +9,11 @@ import static com.cerealib.SerializationReader.*;
 
 public class CLDatabase {
     public static final byte[] HEADER = "CLDB".getBytes();
+    public static final short VERSION = 0x0001;
     public static final byte CONTAINER_TYPE = ContainerType.DATABASE;
     public short nameLength;
     public byte[] name;
-    private int size = 4 + 1 + 2 + 4 + 2;
+    private int size = HEADER.length + 2 + 1 + 2 + 4 + 2;
     private short objectCount;
     public List<CLObject> objects = new ArrayList<CLObject>();
 
@@ -50,6 +51,7 @@ public class CLDatabase {
 
     public int getBytes(byte[] dest, int pointer) {
         pointer = writeBytes(dest, pointer, HEADER);
+        pointer = writeBytes(dest, pointer, VERSION);
         pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
         pointer = writeBytes(dest, pointer, nameLength);
         pointer = writeBytes(dest, pointer, name);
@@ -75,6 +77,14 @@ public class CLDatabase {
         // Making sure we are reading a CLDB File
         assert (readString(data, pointer, HEADER.length).equals(new String(HEADER)));
         pointer += HEADER.length;
+
+        // Read version number.
+        if (readShort(data, pointer) != VERSION) {
+            System.err.println("CLDB version number mismatch. Please check if the library version matches the version of the file you're trying to read.");
+            System.err.println("Expected: v" + VERSION + ", found: v" + readShort(data, pointer));
+            return null;
+        }
+        pointer += Type.getSize(Type.SHORT);
 
         byte containerType = readByte(data, pointer++);
         assert (containerType == CONTAINER_TYPE);
