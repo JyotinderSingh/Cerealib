@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Cerealib.iml" filepath="$PROJECT_DIR$/Cerealib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/CerealibTest/CerealibTest.iml" filepath="$PROJECT_DIR$/CerealibTest/CerealibTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CerealibSandbox/CerealibSandbox.iml" filepath="$PROJECT_DIR$/CerealibSandbox/CerealibSandbox.iml" />
     </modules>
   </component>
 </project>
