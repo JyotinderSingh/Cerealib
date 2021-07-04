@@ -3,13 +3,85 @@ package com.cerealib;
 import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.*;
 
-public class CLField extends CLBase{
+public class CLField extends CLBase {
 
     public static final byte CONTAINER_TYPE = ContainerType.FIELD;
     public byte type;
     public byte[] data;
 
     private CLField() {
+    }
+
+    /**
+     * Get the byte value from a CLField.
+     *
+     * @return byte value represented by the CLField.
+     */
+    public byte getByte() {
+        return readByte(data, 0);
+    }
+
+    /**
+     * Get the short value from a CLField.
+     *
+     * @return short value represented by the CLField.
+     */
+    public short getShort() {
+        return readShort(data, 0);
+    }
+
+    /**
+     * Get the char value from a CLField.
+     *
+     * @return char value represented by the CLField.
+     */
+    public char getChar() {
+        return readChar(data, 0);
+    }
+
+    /**
+     * Get the int value from a CLField.
+     *
+     * @return int value represented by the CLField.
+     */
+    public int getInt() {
+        return readInt(data, 0);
+    }
+
+    /**
+     * Get the long value from a CLField.
+     *
+     * @return long value represented by the CLField.
+     */
+    public long getLong() {
+        return readLong(data, 0);
+    }
+
+    /**
+     * Get the float value from a CLField.
+     *
+     * @return float value represented by the CLField.
+     */
+    public float getFloat() {
+        return readFloat(data, 0);
+    }
+
+    /**
+     * Get the double value from a CLField.
+     *
+     * @return double value represented by the CLField.
+     */
+    public double getDouble() {
+        return readDouble(data, 0);
+    }
+
+    /**
+     * Get the boolean value from a CLField.
+     *
+     * @return boolean value represented by the CLField.
+     */
+    public boolean getBoolean() {
+        return readBoolean(data, 0);
     }
 
     /**

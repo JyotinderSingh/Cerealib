@@ -22,6 +22,10 @@ public class CLDatabase extends CLBase {
         setName(name);
     }
 
+    public short getObjectCount() {
+        return objectCount;
+    }
+
     public void addObject(CLObject object) {
         objects.add(object);
         size += object.getSize();
@@ -105,6 +109,34 @@ public class CLDatabase extends CLBase {
     }
 
     /**
+     * Looks for an object with the given name in the database.
+     *
+     * @param name name of the object
+     * @return CLObject if object is present, null otherwise.
+     */
+    public CLObject findObject(String name) {
+        for (CLObject object : objects) {
+            if (object.getName().equals(name)) {
+                return object;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the list of all the objects in the database, in the order in which they are written.
+     *
+     * @return <code>List<String> of all the objects in the database.</code>
+     */
+    public List<String> listObjects() {
+        List<String> result = new ArrayList<String>();
+        for (CLObject object : objects) {
+            result.add(object.getName());
+        }
+        return result;
+    }
+
+    /**
      * Deserializes a CLDatabase present in a file.
      *
      * @param path path to the .cld CLDatabase file.
@@ -124,6 +156,11 @@ public class CLDatabase extends CLBase {
         return deserialize(buffer);
     }
 
+    /**
+     * Serializes a CLDatabase object into a binary file.
+     *
+     * @param path
+     */
     public void serializeToFile(String path) {
         byte[] data = new byte[getSize()];
         getBytes(data, 0);

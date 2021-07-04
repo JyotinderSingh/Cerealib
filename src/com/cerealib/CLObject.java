@@ -61,6 +61,51 @@ public class CLObject extends CLBase {
     }
 
     /**
+     * Looks for a field with the given name in the object.
+     *
+     * @param name name of the field.
+     * @return CLField if field is present, null otherwise.
+     */
+    public CLField findField(String name) {
+        for (CLField field : fields) {
+            if (field.getName().equals(name)) {
+                return field;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Looks for a String with the given name in the object.
+     *
+     * @param name name of the String.
+     * @return CLString if string is present, null otherwise.
+     */
+    public CLString findString(String name) {
+        for (CLString string : strings) {
+            if (string.getName().equals(name)) {
+                return string;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Looks for an array with the given name in the object.
+     *
+     * @param name name of the array.
+     * @return CLArray if array is present, null otherwise.
+     */
+    public CLArray findArray(String name) {
+        for (CLArray array : arrays) {
+            if (array.getName().equals(name)) {
+                return array;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Writes a CLObject into a stream of bytes.
      *
      * @param dest    destination byte array where the object will be stored.
