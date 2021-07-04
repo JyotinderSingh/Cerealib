@@ -140,8 +140,6 @@ public class CLObject {
         result.size = readInt(data, pointer);
         pointer += Type.getSize(Type.INTEGER);
 
-        // We move the pointer forward by the remaining number of bytes in the object other than the ones already read. (NOT NEEDED IN OUR IMPLEMENTATION)
-        pointer += result.size - sizeOffset - result.nameLength;
         if (true) return result;
 
         // Read in the fieldCount.
