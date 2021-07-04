@@ -1,5 +1,7 @@
 package com.cerealib;
 
+import java.nio.ByteBuffer;
+
 public class SerializationReader {
     /**
      * Reads a byte from a byte array.
@@ -20,7 +22,8 @@ public class SerializationReader {
      * @return
      */
     public static short readshort(byte[] src, int pointer) {
-        return (short) ((src[pointer] << 8) | src[pointer + 1]);
+        return ByteBuffer.wrap(src, pointer, Type.getSize(Type.SHORT)).getShort();
+//        return (short) ((src[pointer] << 8) | src[pointer + 1]);
     }
 
     /**
@@ -31,7 +34,8 @@ public class SerializationReader {
      * @return
      */
     public static char readChar(byte[] src, int pointer) {
-        return (char) ((src[pointer] << 8) | (src[pointer + 1]));
+        return ByteBuffer.wrap(src, pointer, Type.getSize(Type.CHAR)).getChar();
+//        return (char) ((src[pointer] << 8) | (src[pointer + 1]));
     }
 
     /**
@@ -42,7 +46,8 @@ public class SerializationReader {
      * @return
      */
     public static int readInt(byte[] src, int pointer) {
-        return (int) ((src[pointer]) << 24 | (src[pointer + 1] << 16) | (src[pointer + 2] << 8) | (src[pointer + 3]));
+        return ByteBuffer.wrap(src, pointer, Type.getSize(Type.INTEGER)).getInt();
+//        return (int) ((src[pointer]) << 24 | (src[pointer + 1] << 16) | (src[pointer + 2] << 8) | (src[pointer + 3]));
     }
 
     /**
@@ -53,9 +58,12 @@ public class SerializationReader {
      * @return
      */
     public static long readLong(byte[] src, int pointer) {
-        return (long) ((long) (src[pointer]) << 56 | ((long) src[pointer + 1] << 48) | ((long) src[pointer + 2] << 40) | ((long) src[pointer + 3] << 32)
-                | (src[pointer + 4]) << 24 | (src[pointer + 5] << 16) | (src[pointer + 6] << 8) | (src[pointer + 7])
-        );
+        return ByteBuffer.wrap(src, pointer, Type.getSize(Type.LONG)).getLong();
+        /*
+            return (long) ((long) (src[pointer]) << 56 | ((long) src[pointer + 1] << 48) | ((long) src[pointer + 2] << 40) | ((long) src[pointer + 3] << 32)
+            | (src[pointer + 4]) << 24 | (src[pointer + 5] << 16) | (src[pointer + 6] << 8) | (src[pointer + 7])
+            );
+        */
     }
 
     /**
