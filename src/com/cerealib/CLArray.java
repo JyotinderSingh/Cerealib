@@ -3,11 +3,8 @@ package com.cerealib;
 import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.writeBytes;
 
-public class CLArray {
+public class CLArray extends CLBase {
     public static final byte CONTAINER_TYPE = ContainerType.ARRAY;
-    public short nameLength;
-    public byte[] name;
-    public int size = 1 + 2 + 4 + 1 + 4;
     public byte type;
     public int count;
 
@@ -21,26 +18,7 @@ public class CLArray {
     private boolean[] booleanData;
 
     private CLArray() {
-    }
-
-    public String getName() {
-        return new String(name, 0, nameLength);
-    }
-
-    /**
-     * Set the name property of the Array.
-     *
-     * @param name name for the field.
-     */
-    public void setName(String name) {
-        assert (name.length() < Short.MAX_VALUE);
-
-        if (this.name != null) {
-            size -= this.name.length;
-        }
-        nameLength = (short) name.length();
-        this.name = name.getBytes();
-        size += nameLength;
+        size += 1 + 1 + 4;
     }
 
     /**

@@ -3,35 +3,13 @@ package com.cerealib;
 import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.*;
 
-public class CLField {
+public class CLField extends CLBase{
 
     public static final byte CONTAINER_TYPE = ContainerType.FIELD;
-    public short nameLength;
-    public byte[] name;
     public byte type;
     public byte[] data;
 
     private CLField() {
-    }
-
-    /**
-     * Returns the name of the CLField.
-     *
-     * @return
-     */
-    public String getName() {
-        return new String(name, 0, nameLength);
-    }
-
-    /**
-     * Set the name property of the field.
-     *
-     * @param name name for the field.
-     */
-    public void setName(String name) {
-        assert (name.length() < Short.MAX_VALUE);
-        nameLength = (short) name.length();
-        this.name = name.getBytes();
     }
 
     /**

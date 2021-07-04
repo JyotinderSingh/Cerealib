@@ -6,11 +6,8 @@ import java.util.List;
 import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.writeBytes;
 
-public class CLObject {
+public class CLObject extends CLBase {
     public static final byte CONTAINER_TYPE = ContainerType.OBJECT;
-    public short nameLength;
-    public byte[] name;
-    private int size = 1 + 2 + 4 + 2 + 2 + 2;
     private short fieldCount;
     public List<CLField> fields = new ArrayList<CLField>();
     private short stringCount;
@@ -18,38 +15,12 @@ public class CLObject {
     private short arrayCount;
     public List<CLArray> arrays = new ArrayList<CLArray>();
 
-    private static final int sizeOffset = 1 + 2 + 4;
-
     private CLObject() {
     }
 
     public CLObject(String name) {
+        size += 1 + 2 + 2 + 2;
         setName(name);
-    }
-
-    /**
-     * Returns the name of the CLObject.
-     *
-     * @return
-     */
-    public String getName() {
-        return new String(name, 0, nameLength);
-    }
-
-    /**
-     * Set the name property of the Object.
-     *
-     * @param name name for the Object.
-     */
-    public void setName(String name) {
-        assert (name.length() < Short.MAX_VALUE);
-
-        if (this.name != null) {
-            size -= this.name.length;
-        }
-        nameLength = (short) name.length();
-        this.name = name.getBytes();
-        size += nameLength;
     }
 
     /**

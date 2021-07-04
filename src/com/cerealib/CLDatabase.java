@@ -7,13 +7,10 @@ import java.util.List;
 import static com.cerealib.SerializationWriter.*;
 import static com.cerealib.SerializationReader.*;
 
-public class CLDatabase {
+public class CLDatabase extends CLBase {
     public static final byte[] HEADER = "CLDB".getBytes();
     public static final short VERSION = 0x0001;
     public static final byte CONTAINER_TYPE = ContainerType.DATABASE;
-    public short nameLength;
-    public byte[] name;
-    private int size = HEADER.length + 2 + 1 + 2 + 4 + 2;
     private short objectCount;
     public List<CLObject> objects = new ArrayList<CLObject>();
 
@@ -21,22 +18,8 @@ public class CLDatabase {
     }
 
     public CLDatabase(String name) {
+        size += HEADER.length + 2 + 1 + 2;
         setName(name);
-    }
-
-    public void setName(String name) {
-        assert (name.length() < Short.MAX_VALUE);
-
-        if (this.name != null) {
-            size -= this.name.length;
-        }
-        nameLength = (short) name.length();
-        this.name = name.getBytes();
-        size += nameLength;
-    }
-
-    public String getName() {
-        return new String(name, 0, nameLength);
     }
 
     public void addObject(CLObject object) {

@@ -3,41 +3,15 @@ package com.cerealib;
 import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.writeBytes;
 
-public class CLString {
+public class CLString extends CLBase {
     public static final byte CONTAINER_TYPE = ContainerType.STRING;
-    public short nameLength;
-    public byte[] name;
-    public int size = 1 + 2 + 4 + 4;
     public int count;
     private char[] characters;
 
     private CLString() {
+        size += 1 + 4;
     }
 
-    /**
-     * Returns the name of the CLString.
-     *
-     * @return
-     */
-    public String getName() {
-        return new String(name, 0, nameLength);
-    }
-
-    /**
-     * Set the name property of the Object.
-     *
-     * @param name name for the Object.
-     */
-    public void setName(String name) {
-        assert (name.length() < Short.MAX_VALUE);
-
-        if (this.name != null) {
-            size -= this.name.length;
-        }
-        nameLength = (short) name.length();
-        this.name = name.getBytes();
-        size += nameLength;
-    }
 
     /**
      * Returns the String represented by the CLString.
