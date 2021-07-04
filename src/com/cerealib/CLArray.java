@@ -8,38 +8,6 @@ public class CLArray extends CLBase {
     public byte type;
     public int count;
 
-    public byte[] getData() {
-        return data;
-    }
-
-    public short[] getShortData() {
-        return shortData;
-    }
-
-    public char[] getCharData() {
-        return charData;
-    }
-
-    public int[] getIntData() {
-        return intData;
-    }
-
-    public long[] getLongData() {
-        return longData;
-    }
-
-    public float[] getFloatData() {
-        return floatData;
-    }
-
-    public double[] getDoubleData() {
-        return doubleData;
-    }
-
-    public boolean[] getBooleanData() {
-        return booleanData;
-    }
-
     public byte[] data;
     private short[] shortData;
     private char[] charData;
@@ -334,5 +302,37 @@ public class CLArray extends CLBase {
         pointer += result.count * Type.getSize(result.type);
 
         return result;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public short[] getShortData() {
+        return shortData;
+    }
+
+    public char[] getCharData() {
+        return charData;
+    }
+
+    public int[] getIntData() {
+        return intData;
+    }
+
+    public long[] getLongData() {
+        return longData;
+    }
+
+    public float[] getFloatData() {
+        return floatData;
+    }
+
+    public double[] getDoubleData() {
+        return doubleData;
+    }
+
+    public boolean[] getBooleanData() {
+        return booleanData;
     }
 }
