@@ -1,9 +1,5 @@
 import com.cerealib.*;
 
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Random;
 
 public class Main {
@@ -36,13 +32,13 @@ public class Main {
         object.addString(CLString.Create("Example String", "Testing our CLString class!"));
 
         database.addObject(object);
-        database.addObject(new CLObject("Jyotinder1"));
-        CLObject a = new CLObject("Jyotinder2");
+        database.addObject(new CLObject("Cerealib1"));
+        CLObject a = new CLObject("Cerealib2");
         a.addField(CLField.Boolean("aBool", true));
         database.addObject(a);
-        database.addObject(new CLObject("Jyotinder2"));
-        database.addObject(new CLObject("Jyotinder3"));
-        database.addObject(new CLObject("Jyotinder4"));
+        database.addObject(new CLObject("Cerealib2"));
+        database.addObject(new CLObject("Cerealib3"));
+        database.addObject(new CLObject("Cerealib4"));
 
         database.serializeToFile("test.cld");
     }
