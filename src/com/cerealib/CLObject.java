@@ -2,7 +2,9 @@ package com.cerealib;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.writeBytes;
 
 public class CLObject {
@@ -17,9 +19,17 @@ public class CLObject {
     private short arrayCount;
     private List<CLArray> arrays = new ArrayList<CLArray>();
 
+    private static final int sizeOffset = 1 + 2 + 4;
+
+    private CLObject() {
+    }
 
     public CLObject(String name) {
         setName(name);
+    }
+
+    public String getName() {
+        return new String(name, 0, nameLength);
     }
 
     /**
@@ -75,6 +85,13 @@ public class CLObject {
         return size;
     }
 
+    /**
+     * Writes a CLObject into a stream of bytes.
+     *
+     * @param dest    destination byte array where the object will be stored.
+     * @param pointer offset into the destination array where writing will start.
+     * @return
+     */
     public int getBytes(byte[] dest, int pointer) {
         pointer = writeBytes(dest, pointer, CONTAINER_TYPE);
         pointer = writeBytes(dest, pointer, nameLength);
@@ -97,6 +114,55 @@ public class CLObject {
         }
 
         return pointer;
+    }
+
+    /**
+     * Deserializes a stream of bytes into a CLObject.
+     *
+     * @return
+     */
+    public static CLObject deserialize(byte[] data, int pointer) {
+        byte containerType = data[pointer++];
+        assert (containerType == CONTAINER_TYPE);
+
+        // Create a new instance of the CLObject to store the result in.
+        CLObject result = new CLObject();
+
+        // Read in the nameLength.
+        result.nameLength = readshort(data, pointer);
+        pointer += Type.getSize(Type.SHORT);
+
+        // Read in the name, using the nameLength.
+        result.name = readString(data, pointer, result.nameLength).getBytes();
+        pointer += result.nameLength;
+
+        // Read in the size of the Object.
+        result.size = readInt(data, pointer);
+        pointer += Type.getSize(Type.INTEGER);
+
+        // We move the pointer forward by the remaining number of bytes in the object other than the ones already read. (NOT NEEDED IN OUR IMPLEMENTATION)
+        pointer += result.size - sizeOffset - result.nameLength;
+        if (true) return result;
+
+        // Read in the fieldCount.
+        result.fieldCount = readshort(data, pointer);
+        pointer += Type.getSize(Type.SHORT);
+
+        // TODO: Deserialize fields here.
+
+        // Read in the stringCount.
+        result.stringCount = readshort(data, pointer);
+        pointer += Type.getSize(Type.SHORT);
+
+        // TODO: Deserialize strings here.
+
+        // Read in the arrayCount.
+        result.arrayCount = readshort(data, pointer);
+        pointer += Type.getSize(Type.SHORT);
+
+        // TODO: Deserialize arrays here.
+
+        return result;
     }
 
 }
