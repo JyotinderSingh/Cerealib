@@ -1,5 +1,6 @@
 package com.cerealib;
 
+import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.writeBytes;
 
 public class CLArray {
@@ -20,6 +21,10 @@ public class CLArray {
     private boolean[] booleanData;
 
     private CLArray() {
+    }
+
+    public String getName() {
+        return new String(name, 0, nameLength);
     }
 
     /**
@@ -252,5 +257,72 @@ public class CLArray {
         array.booleanData = data;
         array.updateSize();
         return array;
+    }
+
+    public static CLArray deserialize(byte[] data, int pointer) {
+
+        // Read the container type.
+        byte containerType = data[pointer++];
+        assert (containerType == CONTAINER_TYPE);
+
+        CLArray result = new CLArray();
+
+        // Read in the nameLength.
+        result.nameLength = readShort(data, pointer);
+        pointer += Type.getSize(Type.SHORT);
+
+        // Read in the name, using the nameLength.
+        result.name = readString(data, pointer, result.nameLength).getBytes();
+        pointer += result.nameLength;
+
+        // Read the size.
+        result.size = readInt(data, pointer);
+        pointer += Type.getSize(Type.INTEGER);
+
+        // Read the type.
+        result.type = data[pointer++];
+
+        // Read the count.
+        result.count = readInt(data, pointer);
+        pointer += Type.getSize(Type.INTEGER);
+
+        // Read the data.
+        switch (result.type) {
+            case Type.BYTE:
+                result.data = new byte[result.count];
+                readBytes(data, pointer, result.data);
+                break;
+            case Type.SHORT:
+                result.shortData = new short[result.count];
+                readShorts(data, pointer, result.shortData);
+                break;
+            case Type.CHAR:
+                result.charData = new char[result.count];
+                readChars(data, pointer, result.charData);
+                break;
+            case Type.INTEGER:
+                result.intData = new int[result.count];
+                readInts(data, pointer, result.intData);
+                break;
+            case Type.LONG:
+                result.longData = new long[result.count];
+                readLongs(data, pointer, result.longData);
+                break;
+            case Type.FLOAT:
+                result.floatData = new float[result.count];
+                readFloats(data, pointer, result.floatData);
+                break;
+            case Type.DOUBLE:
+                result.doubleData = new double[result.count];
+                readDoubles(data, pointer, result.doubleData);
+                break;
+            case Type.BOOLEAN:
+                result.booleanData = new boolean[result.count];
+                readBooleans(data, pointer, result.booleanData);
+                break;
+        }
+        pointer += result.count * Type.getSize(result.type);
+
+        return result;
     }
 }

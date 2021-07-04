@@ -1,5 +1,6 @@
 package com.cerealib;
 
+import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.writeBytes;
 
 public class CLString {
@@ -11,6 +12,15 @@ public class CLString {
     private char[] characters;
 
     private CLString() {
+    }
+
+    /**
+     * Returns the name of the CLString.
+     *
+     * @return
+     */
+    public String getName() {
+        return new String(name, 0, nameLength);
     }
 
     /**
@@ -27,6 +37,15 @@ public class CLString {
         nameLength = (short) name.length();
         this.name = name.getBytes();
         size += nameLength;
+    }
+
+    /**
+     * Returns the String represented by the CLString.
+     *
+     * @return
+     */
+    public String getString() {
+        return new String(characters);
     }
 
     private void updateSize() {
@@ -58,5 +77,38 @@ public class CLString {
         string.characters = data.toCharArray();
         string.updateSize();
         return string;
+    }
+
+    public static CLString deserialize(byte[] data, int pointer) {
+
+        // Read the container type.
+        byte containerType = data[pointer++];
+        assert (containerType == CONTAINER_TYPE);
+
+        CLString result = new CLString();
+
+        // Read in the nameLength.
+        result.nameLength = readShort(data, pointer);
+        pointer += Type.getSize(Type.SHORT);
+
+        // Read in the name, using the nameLength.
+        result.name = readString(data, pointer, result.nameLength).getBytes();
+        pointer += result.nameLength;
+
+        // Read the size.
+        result.size = readInt(data, pointer);
+        pointer += Type.getSize(Type.INTEGER);
+
+        // Read the count.
+        result.count = readInt(data, pointer);
+        pointer += Type.getSize(Type.INTEGER);
+
+        // Read the data.
+        result.characters = new char[result.count];
+        readChars(data, pointer, result.characters);
+
+        pointer += result.count * Type.getSize(Type.CHAR);
+
+        return result;
     }
 }

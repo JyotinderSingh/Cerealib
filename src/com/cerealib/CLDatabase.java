@@ -83,7 +83,7 @@ public class CLDatabase {
         CLDatabase result = new CLDatabase();
 
         // Read in the nameLength.
-        result.nameLength = readshort(data, pointer);
+        result.nameLength = readShort(data, pointer);
         pointer += Type.getSize(Type.SHORT);
 
         // Read in the name, using the nameLength.
@@ -95,7 +95,7 @@ public class CLDatabase {
         pointer += Type.getSize(Type.INTEGER);
 
         // Read in the number of objects.
-        result.objectCount = readshort(data, pointer);
+        result.objectCount = readShort(data, pointer);
         pointer += Type.getSize(Type.SHORT);
 
         for (int i = 0; i < result.objectCount; ++i) {

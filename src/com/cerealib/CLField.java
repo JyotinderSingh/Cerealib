@@ -1,5 +1,6 @@
 package com.cerealib;
 
+import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.*;
 
 public class CLField {
@@ -11,6 +12,15 @@ public class CLField {
     public byte[] data;
 
     private CLField() {
+    }
+
+    /**
+     * Returns the name of the CLField.
+     *
+     * @return
+     */
+    public String getName() {
+        return new String(name, 0, nameLength);
     }
 
     /**
@@ -178,5 +188,31 @@ public class CLField {
         field.data = new byte[Type.getSize(Type.BOOLEAN)];
         writeBytes(field.data, 0, value);
         return field;
+    }
+
+    public static CLField deserialize(byte[] data, int pointer) {
+
+        // Read the container type.
+        byte containerType = data[pointer++];
+        assert (containerType == CONTAINER_TYPE);
+
+        CLField result = new CLField();
+
+        // Read in the nameLength.
+        result.nameLength = readShort(data, pointer);
+        pointer += Type.getSize(Type.SHORT);
+
+        // Read in the name, using the nameLength.
+        result.name = readString(data, pointer, result.nameLength).getBytes();
+        pointer += result.nameLength;
+
+        // Read the type.
+        result.type = data[pointer++];
+
+        result.data = new byte[Type.getSize(result.type)];
+        readBytes(data, pointer, result.data);
+        pointer += Type.getSize(result.type);
+
+        return result;
     }
 }

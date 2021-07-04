@@ -2,7 +2,6 @@ package com.cerealib;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static com.cerealib.SerializationReader.*;
 import static com.cerealib.SerializationWriter.writeBytes;
@@ -13,11 +12,11 @@ public class CLObject {
     public byte[] name;
     private int size = 1 + 2 + 4 + 2 + 2 + 2;
     private short fieldCount;
-    private List<CLField> fields = new ArrayList<CLField>();
+    public List<CLField> fields = new ArrayList<CLField>();
     private short stringCount;
-    private List<CLString> strings = new ArrayList<CLString>();
+    public List<CLString> strings = new ArrayList<CLString>();
     private short arrayCount;
-    private List<CLArray> arrays = new ArrayList<CLArray>();
+    public List<CLArray> arrays = new ArrayList<CLArray>();
 
     private static final int sizeOffset = 1 + 2 + 4;
 
@@ -28,6 +27,11 @@ public class CLObject {
         setName(name);
     }
 
+    /**
+     * Returns the name of the CLObject.
+     *
+     * @return
+     */
     public String getName() {
         return new String(name, 0, nameLength);
     }
@@ -129,7 +133,7 @@ public class CLObject {
         CLObject result = new CLObject();
 
         // Read in the nameLength.
-        result.nameLength = readshort(data, pointer);
+        result.nameLength = readShort(data, pointer);
         pointer += Type.getSize(Type.SHORT);
 
         // Read in the name, using the nameLength.
@@ -140,25 +144,38 @@ public class CLObject {
         result.size = readInt(data, pointer);
         pointer += Type.getSize(Type.INTEGER);
 
-        if (true) return result;
-
         // Read in the fieldCount.
-        result.fieldCount = readshort(data, pointer);
+        result.fieldCount = readShort(data, pointer);
         pointer += Type.getSize(Type.SHORT);
 
-        // TODO: Deserialize fields here.
+        // Deserialize fields.
+        for (int i = 0; i < result.fieldCount; ++i) {
+            CLField field = CLField.deserialize(data, pointer);
+            result.fields.add(field);
+            pointer += field.getSize();
+        }
 
         // Read in the stringCount.
-        result.stringCount = readshort(data, pointer);
+        result.stringCount = readShort(data, pointer);
         pointer += Type.getSize(Type.SHORT);
 
-        // TODO: Deserialize strings here.
+        // Deserialize strings.
+        for (int i = 0; i < result.stringCount; ++i) {
+            CLString string = CLString.deserialize(data, pointer);
+            result.strings.add(string);
+            pointer += string.getSize();
+        }
 
         // Read in the arrayCount.
-        result.arrayCount = readshort(data, pointer);
+        result.arrayCount = readShort(data, pointer);
         pointer += Type.getSize(Type.SHORT);
 
-        // TODO: Deserialize arrays here.
+        // Deserialize arrays.
+        for (int i = 0; i < result.arrayCount; ++i) {
+            CLArray array = CLArray.deserialize(data, pointer);
+            result.arrays.add(array);
+            pointer += array.getSize();
+        }
 
         return result;
     }
