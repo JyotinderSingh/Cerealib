@@ -2,7 +2,7 @@
 
 ## Cerealib - A High Performance Serialization Library for Java
 
-Cerealib is a fast serialization library for Java which supports all Java Primitives.
+Cerealib is a fast serialization library for Java which supports all Java Primitives, Strings, and Primitive Arrays - and offers many performance benefits over the default Java Serialization implementation.
 
 For real world usage and reference, try out the code in the [CerealibSandbox](./CerealibSandbox/src) module!
 
@@ -12,8 +12,8 @@ For real world usage and reference, try out the code in the [CerealibSandbox](./
 
 ### CLDatabase
 
-Every serialized file is refered to as a CLDatabase. A CLDatabase contains all the information needed to read back the
-data from the binary file.
+Every serialized file is referred to as a CLDatabase. A CLDatabase contains all the information needed to write / read the
+data to / from a binary file.
 
 A CLDatabase is made up of multiple CLObjects.
 
@@ -58,17 +58,23 @@ object.addField(CLField.Byte("byteNum", 4));
 object.addField(CLField.Double("doubleNum", 234.35));
 // and so on...
         
+        
 // Adding an array sequence to the object.
+        
+// Generating a random integer array.
 int[] data = new int[50000];
 for(int i = 0; i < data.length; ++i){
     data[i] = random.nextInt();
 }
+// We add a CLArray object, using the Integer method (since we are adding an integer array) to the database.
 Object.addField(CLArray.Integer("Random Numbers",data))
 
+// Generating a random boolean array.
 boolean[] bools = new boolean[50];
-for(int i = 0; i < boolean.length; ++i){
+for(int i = 0; i < bools.length; ++i){
     bools[i]=random.nextBoolean();
 }
+// We add a CLArray object, using the Boolean method (since we are adding a boolean array) to the database.
 Object.addField(CLArray.Boolean("Random Bools",bools));
 ```
 Add the object to the database
