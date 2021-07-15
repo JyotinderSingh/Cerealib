@@ -2,9 +2,21 @@
 
 ## Cerealib - A High Performance Serialization Library for Java
 
-Cerealib is a fast serialization library for Java which supports all Java Primitives, Strings, and Primitive Arrays - and offers many performance benefits over the default Java Serialization implementation.
+Cerealib is a fast serialization library for Java which supports all Java Primitives, Strings, and Primitive Arrays -
+and offers many performance benefits over the default Java Serialization implementation.
 
 For real world usage and reference, try out the code in the [CerealibSandbox](./CerealibSandbox/src) module!
+
+## Why did I build yet another serialization library?
+
+While working on another side project, I ended up requiring a serialization solution. As I was going through Java's
+official implementation, I came across quite a few comments which said that it wasn't really performant, and one was
+better off using third party libraries. This kind of felt odd in a way, that a language's official implementation would
+be critiqued for performance (after all, the entire world writes their code in Java).
+
+This led me to fall into a rabbit hole, trying to learn more about how serialization is actually implemented, and what
+makes Java's implementation sub par (the reasons were things which I could safely circumvent, given that I didn't need
+to support any legacy implementations, reflection, or versioning). This felt like a nice way to spend a weekend.
 
 # Usage Guide
 
@@ -12,8 +24,8 @@ For real world usage and reference, try out the code in the [CerealibSandbox](./
 
 ### CLDatabase
 
-Every serialized file is referred to as a CLDatabase. A CLDatabase contains all the information needed to write / read the
-data to / from a binary file.
+Every serialized file is referred to as a CLDatabase. A CLDatabase contains all the information needed to write / read
+the data to / from a binary file.
 
 A CLDatabase is made up of multiple CLObjects.
 
@@ -35,52 +47,55 @@ A CLDatabase is made up of multiple CLObjects.
 Create a new CLDatabase instance
 
 ```java
-CLDatabase database = new CLDatabase("Database");
+CLDatabase database=new CLDatabase("Database");
 ```
 
 Create an object to store in the database (you can have as many of these as you want in a single CLDatabase)
 
 ```java
-CLObject object = new CLObject("ObjectName"); 
+CLObject object=new CLObject("ObjectName"); 
 ```
 
 Start adding CLFields, CLArrays, CLStrings to the object
 
 ```java
 // To add a string to the object, we use the Create method in the CLString class
-object.addString(CLString.Create("colour", "red"));
+object.addString(CLString.Create("colour","red"));
 
 // To add one of the primitive types, we call the corresponding method on the CLField class.
-object.addField(CLField.Integer("age", 24));
-object.addField(CLField.Boolean("ranked", true));
-object.addField(CLField.Short("num", 50));
-object.addField(CLField.Byte("byteNum", 4));
-object.addField(CLField.Double("doubleNum", 234.35));
+        object.addField(CLField.Integer("age",24));
+        object.addField(CLField.Boolean("ranked",true));
+        object.addField(CLField.Short("num",50));
+        object.addField(CLField.Byte("byteNum",4));
+        object.addField(CLField.Double("doubleNum",234.35));
 // and so on...
-        
-        
+
+
 // Adding an array sequence to the object.
-        
+
 // Generating a random integer array.
-int[] data = new int[50000];
-for(int i = 0; i < data.length; ++i){
-    data[i] = random.nextInt();
-}
+        int[]data=new int[50000];
+        for(int i=0;i<data.length;++i){
+        data[i]=random.nextInt();
+        }
 // We add a CLArray object, using the Integer method (since we are adding an integer array) to the database.
-Object.addField(CLArray.Integer("Random Numbers",data))
+        Object.addField(CLArray.Integer("Random Numbers",data))
 
 // Generating a random boolean array.
-boolean[] bools = new boolean[50];
-for(int i = 0; i < bools.length; ++i){
-    bools[i]=random.nextBoolean();
-}
+        boolean[]bools=new boolean[50];
+        for(int i=0;i<bools.length;++i){
+        bools[i]=random.nextBoolean();
+        }
 // We add a CLArray object, using the Boolean method (since we are adding a boolean array) to the database.
-Object.addField(CLArray.Boolean("Random Bools",bools));
+        Object.addField(CLArray.Boolean("Random Bools",bools));
 ```
+
 Add the object to the database
+
 ```java
 database.addObject(object);
 ```
+
 - Serialize the database to a file
     ```java
     database.serializeToFile("SerializedFile.cld");     // File extension can be anything.
@@ -93,26 +108,30 @@ database.addObject(object);
     // data is the destination array, 0 is the offset from where we start writing inside the data array.
     database.getBytes(data, 0);     
     ```
-  
+
 ## Deserializing
+
 Read the binary file into a CLDatabase
+
 ```java
-CLDatabase database = CLDatabase.deserializeFromFile("SerializedFile.cld");
+CLDatabase database=CLDatabase.deserializeFromFile("SerializedFile.cld");
 ```
+
 After this, the objects can be access through a variety of methods.
+
 ```java
 // You can load a CLObject from the database by providing its name
-CLObject object = database.findObject("ObjectName");
+CLObject object=database.findObject("ObjectName");
 
 // You can load the CLFields, CLArrays, CLStrings from the object now
-int loadedAge = object.findField("age").getInt();
-short loadedNum = object.findField("num").getShort();
-boolean loadedRanked = object.findField("ranked").getBoolean();
+        int loadedAge=object.findField("age").getInt();
+        short loadedNum=object.findField("num").getShort();
+        boolean loadedRanked=object.findField("ranked").getBoolean();
 
-String loadedColour = object.findString("colour").getString();
+        String loadedColour=object.findString("colour").getString();
 
 // In case you don't know the size of the array you're about to read - you can write that as well to a field while serializing.
 // So, when you read the data back, you can read that field and use that to instantiate a new array of the required size.
-boolean[] loadedBools = new boolean[50];
-loadedBools = object.findArray("Random Bools").getBooleanData();
+        boolean[]loadedBools=new boolean[50];
+        loadedBools=object.findArray("Random Bools").getBooleanData();
 ```
